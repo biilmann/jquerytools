@@ -671,7 +671,6 @@
 			},
 			
 			reset: function() {
-			  console.log("Hello %o", input)
 			    return self.select(input.attr("data-value") || input.val() ? value : null);
 			},
 			
