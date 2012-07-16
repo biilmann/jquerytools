@@ -671,7 +671,7 @@
 			},
 			
 			reset: function() {
-			    return self.select(input.val() ? value : null);
+			    return self.select(input.attr("data-value") || input.val() ? value : null);
 			},
 			
 			addDay: function(amount) {
