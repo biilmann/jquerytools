@@ -137,15 +137,18 @@
 				// position & dimensions 
 				var top = conf.top,					
 					 left = conf.left,
-					 oWidth = overlay.outerWidth({margin:true}),
-					 oHeight = overlay.outerHeight({margin:true}); 
+					 oWidth = overlay.outerWidth(true),
+					 oHeight = overlay.outerHeight(true); 
 				
 				if (typeof top == 'string')  {
 					top = top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : 
 						parseInt(top, 10) / 100 * w.height();			
 				}				
 				
-				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
+				if (left == 'center') { 
+				  left = Math.max((w.width() - oWidth) / 2, 0);
+				  console.log("Left is center %o - %o - %o", left, w.width(), oWidth);
+				}
 
 				
 		 		// load effect  		 		
