@@ -218,23 +218,23 @@
 			
 			// root
 			root = $('<div><div><a/><div/><a/></div><div><div/><div/></div></div>')
-				.hide().css({position: 'absolute'}).attr("id", css.root);			
+				.hide().css({position: 'absolute'}).attr("id", css.root).addClass('calroot');			
 						
 			// elements
 			root.children()
-				.eq(0).attr("id", css.head).end() 
-				.eq(1).attr("id", css.body).children()
-					.eq(0).attr("id", css.days).end()
-					.eq(1).attr("id", css.weeks).end().end().end()
-				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);		 				  
+				.eq(0).attr("id", css.head).addClass('calhead').end() 
+				.eq(1).attr("id", css.body).addClass('calbody').children()
+					.eq(0).attr("id", css.days).addClass('caldays').end()
+					.eq(1).attr("id", css.weeks).addClass('calweeks').end().end().end()
+				.find("a").eq(0).attr("id", css.prev).addClass('calprev').end().eq(1).attr("id", css.next).addClass('calnext');		 				  
 			
 			// title
-			title = root.find("#" + css.head).find("div").attr("id", css.title);
+			title = root.find("#" + css.head).find("div").attr("id", css.title).addClass('caltitle');
 			
 			// year & month selectors
 			if (conf.selectors) {				
-				var monthSelector = $("<select/>").attr("id", css.month),
-					 yearSelector = $(conf.yearRange ? "<select/>" : "<input type='number' step='1'/>").attr("id", css.year);				
+				var monthSelector = $("<select/>").attr("id", css.month).addClass('calmonth'),
+					 yearSelector = $(conf.yearRange ? "<select/>" : "<input type='number' step='1'/>").attr("id", css.year).addClass('calyear');				
 				title.html(monthSelector.add(yearSelector));
 			}						
 			
