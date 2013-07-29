@@ -182,7 +182,7 @@
 			 trigger,
 			 pm, nm, 
 			 currYear, currMonth, currDay,
-			 value = input.attr("data-value") || conf.value || input.val(), 
+			 value = input.data("value") || conf.value || input.val(), 
 			 min = input.attr("min") || conf.min,  
 			 max = input.attr("max") || conf.max,
 			 opened;
@@ -206,8 +206,12 @@
 			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
 			});			
+			var data = input.data();
 			input.replaceWith(tmp);
 			input = tmp;
+			for (var key in data) {
+			  input.data(key, data[key]);
+			}
 		}
 		input.addClass(css.input);
 		
@@ -268,7 +272,6 @@
 //{{{ pick
 			 			 
 		function select(date, conf, e) {  
-			
 			// current value
 			value 	 = date;
 			currYear  = date.getFullYear();
@@ -284,8 +287,9 @@
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
-			input.val(format(date, conf.format, conf.lang));
-			
+			var val = format(date, conf.format, conf.lang);
+			input.val(val).data("value", val);
+
 			// store value into input
 			input.data("date", date);
 			
@@ -469,7 +473,7 @@
 				}
 				
 				root.css({ 
-					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
+					top: pos.top + input.outerHeight(true) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
 				});
 				
@@ -489,7 +493,6 @@
 //{{{  setValue
 
 			setValue: function(year, month, day)  {
-				
 				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day == undefined || isNaN(day) ? 1 : day)) : 
 					year || value;				
 				
@@ -499,7 +502,6 @@
 				year = date.getFullYear();
 				month = date.getMonth();
 				day = date.getDate(); 
-				
 				
 				// roll year & month
 				if (month == -1) {
@@ -592,11 +594,11 @@
 						
 						// current date
 						if (isSameDay(value, date)) {
-							a.attr("id", css.current).addClass(css.focus);
+							a.attr("id", css.current).addClass(css.focus).addClass("calcurrent");
 							
 						// today
 						} else if (isSameDay(now, date)) {
-							a.attr("id", css.today);
+							a.attr("id", css.today).addClass("caltoday");
 						}	 
 					}
 					
@@ -618,8 +620,8 @@
 				weeks.find("a").click(function(e) {
 					var el = $(this); 
 					if (!el.hasClass(css.disabled)) {  
-						$("#" + css.current).removeAttr("id");
-						el.attr("id", css.current);	 
+						$("#" + css.current).removeAttr("id").removeClass("calcurrent");
+						el.attr("id", css.current).addClass("calcurrent");	
 						select(el.data("date"), conf, e);
 					}
 					return false;
@@ -768,7 +770,6 @@
 				conf.css[key] = (conf.css.prefix || '') + (val || key);
 			}
 		});		
-	
 		var els;
 		
 		this.each(function() {									
